@@ -27,6 +27,22 @@ class Congressperson
      */
     private $externalUri;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Politician")
+     */
+    protected $politician;
+
+    public function getPolitician()
+    {
+        return $this->politician;
+    }
+
+    public function setPolitician(Politician $politician): self
+    {
+        $this->politician = $politician;
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
