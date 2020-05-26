@@ -2,22 +2,18 @@
 
 namespace App\Service\PoliticsConsumer;
 
-class CongresspersonConsumer implements PoliticsConsumerInterface
+class CongresspersonConsumer extends AbstractPoliticsConsumerBase
 {
     use JsonConsumerTrait;
 
-    public function setApiUrl(string $url)
+    public function get()
     {
-        // TODO: Implement setApiUrl() method.
+        $this->setData = $this->getContent($this->getApiUrl());
     }
 
-    public function getApiUrl(): string
+    public function handle(): void
     {
-        // TODO: Implement getApiUrl() method.
-    }
-
-    public function handle()
-    {
-        // TODO: Implement handle() method.
+        // TODO: implement creation of entities
+        // $data = $this->getData();
     }
 }

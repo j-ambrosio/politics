@@ -8,7 +8,11 @@ interface PoliticsConsumerInterface
 
     public function getApiUrl() : string;
 
-    public function handle();
+    public function handle(): void;
 
-    public function get(string $url);
+    public function get();
+
+    public function getData();
+
+    public function setData($data);
 }

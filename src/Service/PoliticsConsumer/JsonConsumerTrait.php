@@ -4,20 +4,34 @@
 namespace App\Service\PoliticsConsumer;
 
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Contracts\HttpClient\ResponseInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use \Exception;
 
 trait JsonConsumerTrait
 {
-    public function get(string $url): ?ResponseInterface
+    protected static function getSerializer(): Serializer
+    {
+        return new Serializer([new GetSetMethodNormalizer(), ['json' => new JsonEncoder()]]);
+    }
+
+    public function decode(string $data)
+    {
+        $serializer = self::getSerializer();
+        return $serializer->decode($data, 'json');
+    }
+
+    public function getContent(string $url)
     {
         try {
             $client = HttpClient::create();
-            return $client->request('GET', $url, [
+            $response = $client->request('GET', $url, [
                 'headers' => [
                     'Accept' => 'application/json'
                 ]
             ]);
+            return $this->decode($response->getContent());
         } catch(Exception $exception) {
             return null;
         }
